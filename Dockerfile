@@ -16,6 +16,6 @@ WORKDIR /app
 RUN sed -i -e 's/^transformers==4.30.2/transformers/' requirements.txt
 RUN pip install -r requirements.txt
 
-ENTRYPOINT REQS_FILE='requirements.txt' \
-    COMMANDLINE_ARGS='--skip-torch-cuda-test --skip-python-version-check' \
-    python launch.py --precision full --no-half
+ENV REQS_FILE='requirements.txt'
+ENV COMMANDLINE_ARGS='--skip-torch-cuda-test --skip-python-version-check'
+ENTRYPOINT ["python", "launch.py", "--precision", "full", "--no-half" ]
