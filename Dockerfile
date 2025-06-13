@@ -13,9 +13,12 @@ RUN pip install --upgrade pip
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /app && \
     git config --global --add safe.directory /app
 WORKDIR /app
-RUN sed -i -e 's/^transformers==4.30.2/transformers/' requirements.txt
+RUN sed -i -e 's/^transformers==4.30.2/transformers/' requirements.txt requirements_versions.txt
 RUN pip install -r requirements.txt
+RUN XFORMERS_PACKAGE='xformers==0.0.29.post1' \
+    python -c 'import launch; launch.prepare_environment()' \
+      --reinstall-xformers --xformers --skip-torch-cuda-test --skip-python-version-check
 
 ENV REQS_FILE='requirements.txt'
-ENV COMMANDLINE_ARGS='--skip-torch-cuda-test --skip-python-version-check'
-ENTRYPOINT ["python", "launch.py", "--precision", "full", "--no-half" ]
+ENV COMMANDLINE_ARGS='--skip-python-version-check'
+ENTRYPOINT ["python", "launch.py", "--precision", "full", "--no-half", "--xformers"]
