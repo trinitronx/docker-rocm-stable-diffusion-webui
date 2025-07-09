@@ -1,0 +1,14 @@
+diff --git a/modules/sd_models.py b/modules/sd_models.py
+index 55bd9ca5..3815dc5e 100644
+--- a/modules/sd_models.py
++++ b/modules/sd_models.py
+@@ -815,7 +815,8 @@ def load_model(checkpoint_info=None, already_loaded_state_dict=None):
+ 
+     sd_model = None
+     try:
+-        with sd_disable_initialization.DisableInitialization(disable_clip=clip_is_included_into_sd or shared.cmd_opts.do_not_download_clip):
++        #with sd_disable_initialization.DisableInitialization(disable_clip=clip_is_included_into_sd or shared.cmd_opts.do_not_download_clip):
++        with sd_disable_initialization.DisableInitialization(disable_clip=False):
+             with sd_disable_initialization.InitializeOnMeta():
+                 sd_model = instantiate_from_config(sd_config.model, state_dict)
+ 
