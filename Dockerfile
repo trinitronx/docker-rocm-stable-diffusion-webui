@@ -1,4 +1,4 @@
-FROM rocm/pytorch:rocm6.4.1_ubuntu24.04_py3.12_pytorch_release_2.7.0 AS stage1
+FROM rocm/pytorch:rocm6.4.1_ubuntu24.04_py3.12_pytorch_release_2.7.1 AS stage1
 #FROM rocm/pytorch:latest ## Too old
 
 RUN apt-get update && apt-get -y install rustup libssl-dev openssl unzip zip \
@@ -28,10 +28,16 @@ RUN pip install -r requirements.txt
 #RUN pip3 install -U xformers --index-url https://download.pytorch.org/whl/rocm6.3
 
 FROM stage1 AS stage2
+# Override modules/launch_utils.py prepare_environment() command + URLs
+ARG TORCH_URLS='https://download.pytorch.org/whl/rocm6.3/torch-2.7.1%2Brocm6.3-cp312-cp312-manylinux_2_28_x86_64.whl#sha256=b0c10342f64a34998ae8d5084aa1beae7e11defa46a4e05fe9aa6f09ffb0db37 \
+    https://download.pytorch.org/whl/rocm6.3/torchvision-0.22.1%2Brocm6.3-cp312-cp312-manylinux_2_28_x86_64.whl#sha256=0dce205fb04d9eb2f6feb74faf17cba9180aff70a8c8ac084912ce41b2dc0ab7 \
+    https://download.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp312-cp312-linux_x86_64.whl#sha256=977423eee5c542a3f8aa4f527aec1688c4d485f207089cb595a8e638fcc3888a'
+
 # Fix broken root permissions in base image conda env
 RUN sudo chown -R jenkins:jenkins "/opt/conda/envs/py_${ANACONDA_PYTHON_VERSION}/lib/python${ANACONDA_PYTHON_VERSION}/site-packages/"
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install lightning
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install pydantic==1.10.16
+RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install ${TORCH_URLS}
 ## Broken attempt at using xformers
 #RUN sudo -E -H -u jenkins env -u SUDO_UID -u SUDO_GID -u SUDO_COMMAND \
 #      -u SUDO_USER env "PATH=$PATH" "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" \
@@ -52,6 +58,12 @@ RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install pydantic==1.10.16
 #RUN XFORMERS_PACKAGE='xformers==0.0.31.post1' \
 #    python -c 'import launch; launch.prepare_environment()' \
 #      --skip-torch-cuda-test --skip-python-version-check
+
+# git clone & package sub-repos in Docker image layer to shorten startup-time & lock model dependencies
+
+# Note: Should be 6.4, but does not exist yet...
+#ENV TORCH_INDEX_URL='https://download.pytorch.org/whl/rocm6.3'
+ENV TORCH_COMMAND='conda run -n py_$ANACONDA_PYTHON_VERSION pip install ${TORCH_URLS}'
 
 ENV REQS_FILE='requirements.txt'
 ENV COMMANDLINE_ARGS='--skip-python-version-check --skip-torch-cuda-test'
