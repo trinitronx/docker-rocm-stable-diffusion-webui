@@ -67,6 +67,14 @@ ENV TORCH_COMMAND='conda run -n py_$ANACONDA_PYTHON_VERSION pip install ${TORCH_
 
 ENV REQS_FILE='requirements.txt'
 ENV COMMANDLINE_ARGS='--skip-python-version-check --skip-torch-cuda-test'
+RUN [ -f "/run/secrets/hf_token" ] && export HF_TOKEN="$(cat /run/secrets/hf_token)"; \
+    conda run -n py_$ANACONDA_PYTHON_VERSION python -c \
+      'import sys; import os; sys.path.append(os.path.join(os.getcwd(), "modules")); \
+       from modules import launch_utils; launch_utils.prepare_environment()'
+# Fix issue 11458 in sub-repos
+# Reference: https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/11458
+RUN grep --files-with-matches --exclude-dir '__pycache__' --null -ri 'pytorch_lightning.utilities.distributed' ./ | \
+    xargs -0 sed -i -e 's/pytorch_lightning\.utilities\.distributed/pytorch_lightning.utilities.rank_zero/'
 
 COPY entrypoint.sh /app/
 
