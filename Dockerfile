@@ -2,7 +2,7 @@ FROM rocm/pytorch:rocm6.4.1_ubuntu24.04_py3.12_pytorch_release_2.7.1 AS stage1
 #FROM rocm/pytorch:latest ## Too old
 
 RUN apt-get update && apt-get -y install rustup libssl-dev openssl unzip zip \
-      rsync
+      rsync dos2unix
 
 #COPY . /app
 
@@ -20,7 +20,8 @@ WORKDIR /app
 RUN sed -i -e 's/^transformers==4.30.2/transformers/' requirements.txt requirements_versions.txt
 RUN grep --files-with-matches --exclude-dir '__pycache__' --null -ri 'pytorch_lightning.utilities.distributed' ./ | \
     xargs -0 sed -i -e 's/pytorch_lightning\.utilities\.distributed/pytorch_lightning.utilities.rank_zero/'
-RUN for p in $(ls -1 patches/*.patch); do  patch -p1 < "$p" ; done
+RUN for p in patches/*.patch ; do unix2dos --quiet --to-stdout "$p" | patch -p1 --binary ; done
+
 RUN pip install -r requirements.txt
 #RUN pip3 install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 \
 #    --index-url https://download.pytorch.org/whl/rocm6.3
