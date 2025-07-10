@@ -15,6 +15,7 @@ RUN rustup install stable-x86_64
 RUN pip install --upgrade pip
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /app && \
     git config --global --add safe.directory /app
+COPY patches /app/patches
 WORKDIR /app
 RUN sed -i -e 's/^transformers==4.30.2/transformers/' requirements.txt requirements_versions.txt
 RUN grep --files-with-matches --exclude-dir '__pycache__' --null -ri 'pytorch_lightning.utilities.distributed' ./ | \
