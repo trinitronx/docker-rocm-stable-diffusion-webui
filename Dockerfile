@@ -1,7 +1,8 @@
 FROM rocm/pytorch:rocm6.4.1_ubuntu24.04_py3.12_pytorch_release_2.7.0 AS stage1
 #FROM rocm/pytorch:latest ## Too old
 
-RUN apt-get update && apt-get -y install rustup libssl-dev openssl unzip zip
+RUN apt-get update && apt-get -y install rustup libssl-dev openssl unzip zip \
+      rsync
 
 #COPY . /app
 
@@ -54,5 +55,9 @@ RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install pydantic==1.10.16
 
 ENV REQS_FILE='requirements.txt'
 ENV COMMANDLINE_ARGS='--skip-python-version-check --skip-torch-cuda-test'
+
+COPY entrypoint.sh /app/
+
 #ENTRYPOINT ["python", "launch.py", "--precision", "full", "--no-half", "--xformers"]
-ENTRYPOINT ["python", "launch.py", "--precision", "full", "--no-half", "--listen"]
+VOLUME /data
+ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]
