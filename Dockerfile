@@ -40,6 +40,7 @@ RUN sudo chown -R jenkins:jenkins "/opt/conda/envs/py_${ANACONDA_PYTHON_VERSION}
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install lightning
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install pydantic==1.10.16
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install ${TORCH_URLS}
+RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install open-clip-torch==2.24.0
 ## Broken attempt at using xformers
 #RUN sudo -E -H -u jenkins env -u SUDO_UID -u SUDO_GID -u SUDO_COMMAND \
 #      -u SUDO_USER env "PATH=$PATH" "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" \
