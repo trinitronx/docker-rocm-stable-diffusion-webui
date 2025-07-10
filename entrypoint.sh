@@ -13,7 +13,7 @@ if [ -e /data -a -d /data ]; then
     rsync -a /app/extensions /data/
     rsync -a /app/localizations /data/
   fi
-  python launch.py --precision full --no-half --listen --data-dir /data
+  python launch.py --precision full --no-half --listen --data-dir /data --no-gradio-queue
 else
-  python launch.py --precision full --no-half --listen
+  python launch.py --precision full --no-half --listen --no-gradio-queue
 fi
