@@ -41,6 +41,12 @@ RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install lightning
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install pydantic==1.10.16
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install ${TORCH_URLS}
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install open-clip-torch==2.24.0
+# For solving dependency hell: InstantID -> insightface -> ... deps ...
+# If not using InstantID + ControlNet models... this can be dropped
+RUN sudo apt-get -y install pybind11-dev && \
+    conda run -n py_$ANACONDA_PYTHON_VERSION pip install --no-input insightface 'protobuf>=3.20.2' 'numpy<2.0' pydantic==1.10.16 albumentations==1.4.3 onnx==1.17.0 coremltools 'open-clip-torch<3.0' mediapipe
+RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install --no-input https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/onnxruntime_rocm-1.21.0-cp312-cp312-manylinux_2_28_x86_64.whl
+
 ## Broken attempt at using xformers
 #RUN sudo -E -H -u jenkins env -u SUDO_UID -u SUDO_GID -u SUDO_COMMAND \
 #      -u SUDO_USER env "PATH=$PATH" "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" \
