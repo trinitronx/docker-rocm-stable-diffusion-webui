@@ -89,4 +89,5 @@ COPY entrypoint.sh /app/
 
 #ENTRYPOINT ["python", "launch.py", "--precision", "full", "--no-half", "--xformers"]
 VOLUME /data
+ENV PYTORCH_HIP_ALLOC_CONF=expandable_segments:True
 ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]
