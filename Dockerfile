@@ -88,6 +88,9 @@ RUN grep --files-with-matches --exclude-dir '__pycache__' --null -ri 'pytorch_li
 COPY entrypoint.sh /app/
 
 #ENTRYPOINT ["python", "launch.py", "--precision", "full", "--no-half", "--xformers"]
+RUN mkdir -p /var/lib/jenkins/.cache/huggingface/hub && \
+    chown -R jenkins:jenkins /var/lib/jenkins/.cache/huggingface/hub
+VOLUME /var/lib/jenkins/.cache/huggingface/hub
 VOLUME /data
 ENV PYTORCH_HIP_ALLOC_CONF=expandable_segments:True
 ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]
