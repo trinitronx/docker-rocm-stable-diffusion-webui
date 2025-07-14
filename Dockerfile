@@ -77,7 +77,7 @@ RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install --no-input  diffusers
 ENV TORCH_COMMAND='conda run -n py_$ANACONDA_PYTHON_VERSION pip install ${TORCH_URLS}'
 
 ENV REQS_FILE='requirements.txt'
-ENV COMMANDLINE_ARGS='--skip-python-version-check --skip-torch-cuda-test'
+ENV COMMANDLINE_ARGS='--skip-python-version-check --skip-torch-cuda-test --upcast-sampling --opt-sub-quad-attention'
 RUN [ -f "/run/secrets/hf_token" ] && export HF_TOKEN="$(cat /run/secrets/hf_token)"; \
     conda run -n py_$ANACONDA_PYTHON_VERSION python -c \
       'import sys; import os; sys.path.append(os.path.join(os.getcwd(), "modules")); \
