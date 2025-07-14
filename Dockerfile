@@ -94,5 +94,5 @@ RUN mkdir -p /var/lib/jenkins/.cache/huggingface/hub && \
     chown -R jenkins:jenkins /var/lib/jenkins/.cache/huggingface/hub
 VOLUME /var/lib/jenkins/.cache/huggingface/hub
 VOLUME /data
-ENV PYTORCH_HIP_ALLOC_CONF=expandable_segments:True
+ENV PYTORCH_HIP_ALLOC_CONF=expandable_segments:True,garbage_collection_threshold:0.7,max_split_size_mb:512
 ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]
