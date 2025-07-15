@@ -48,6 +48,8 @@ RUN sudo apt-get -y install pybind11-dev && \
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install --no-input https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/onnxruntime_rocm-1.21.0-cp312-cp312-manylinux_2_28_x86_64.whl
 # For AnimateDiff dependency: diffusers
 RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install --no-input  diffusers
+# For Hires fix / ESRGAN upscalers dependency: spandrel
+RUN conda run -n py_$ANACONDA_PYTHON_VERSION pip install --no-input  spandrel spandrel-extra-arches
 
 ## Broken attempt at using xformers
 #RUN sudo -E -H -u jenkins env -u SUDO_UID -u SUDO_GID -u SUDO_COMMAND \
