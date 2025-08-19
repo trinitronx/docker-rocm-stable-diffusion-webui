@@ -22,6 +22,17 @@ ROCm 6.4.1 and PyTorch 2.7.1 support.
 
 ## Quick Start
 
+During build & run steps, the `AUTOMATIC1111/stable-diffusion-webui` project
+will need to download some large files & models from HuggingFace on the first
+run.  It's recommended to generate a HuggingFace token to avoid rate limits.
+
+Before running either of the commands below, set the `HF_TOKEN` variable to use
+your token.
+
+```shell
+export HF_TOKEN='hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' # <- your token here
+```
+
 ### Build the Docker Image
 
 ```shell
