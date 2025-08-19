@@ -100,7 +100,7 @@ Your models and configurations persist in:
 ### Modify settings in Web UI
 
 1. Run the container once
-  - A default config is generated under `data/config.json`
+    - A default config is generated under `data/config.json`
 2. Open Web UI in a browser & navigate to Settings
 3. Change any desired settings
 4. Settings are saved to `data/config.json`
