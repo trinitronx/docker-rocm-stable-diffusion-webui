@@ -47,6 +47,26 @@ make run
 
 The WebUI will be available at: [http://localhost:7860](http://localhost:7860)
 
+## Sponsor
+
+If you find this project useful and appreciate my work,
+would you be willing to click one of the buttons below to Sponsor this project
+and help me continue?
+
+<!-- markdownlint-disable MD033  -->
+| Method       | Button                                                                                                                               |
+| :----------- | :----------------------------------------------------------------------------------------------------------------------------------: |
+| GitHub       | [![💖 Sponsor](https://trinitronx.github.io/assets/img/gh-button-medium.svg)](https://github.com/sponsors/trinitronx)                                                                                 |
+| Liberapay    | [![Support with Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/trinitronx/donate)                |
+| PayPal       | [![Support with PayPal](https://trinitronx.github.io/assets/img/paypal-button-medium-blue.svg)](https://paypal.me/JamesCuzella)              |
+| Ko-Fi        | [![Support with Ko-Fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/trinitronx)                                     |
+| BuyMeACoffee | [![Buy Me a Coffee](https://trinitronx.github.io/assets/img/bmc-button-medium.svg)](https://www.buymeacoffee.com/TrinitronX) |
+| Polar        | [![Support with Polar](https://trinitronx.github.io/assets/img/polar-button-medium-dark.svg)](https://polar.sh/lyraphase)                   |
+| Patreon <sup>(_my artist page_)</sup> | [![Support with Patreon](https://img.shields.io/badge/dynamic/json?logo=patreon&style=for-the-badge&color=ffac00&label=Patreon&query=data.attributes.patron_count&suffix=%20patrons&url=https%3A%2F%2Fwww.patreon.com%2Fapi%2Fcampaigns%2F2379189)](https://www.patreon.com/bePatron?u=16585899)                                     |
+<!-- markdownlint-enable MD033  -->
+
+Every little bit is appreciated! Thank you! 🙏
+
 ## Project Structure
 
 Key directories:
